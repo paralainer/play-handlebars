@@ -45,6 +45,18 @@ public class TemplateManager {
         );
     }
 
+    public String getJsTemplates() throws IOException {
+        Map<String, String> templates = getTemplates();
+
+        StringBuilder builder = new StringBuilder("Handlebars.templates = Handlebars.templates || {};\n");
+        for (Map.Entry<String, String> entry : templates.entrySet()) {
+            builder.append("Handlebars.templates['").append(entry.getKey()).append("'] = ").append("Handlebars.template(").append(entry.getValue()).append(");\n");
+        }
+
+        return builder.toString();
+    }
+
+
     public Map<String, String> getTemplates() throws IOException {
         final Map<String, String> result = new HashMap<String, String>();
 
