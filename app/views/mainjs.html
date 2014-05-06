@@ -1,3 +1,8 @@
 #{extends 'main.html'/}
-
+<div id="async-content">
 #{handlebars.renderJs template:template, context: context/}
+</div>
+
+<script>
+    history.pushState({context: ${contextJson.raw()}, action: '${template}'}, "", "");
+</script>

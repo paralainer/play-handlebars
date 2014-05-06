@@ -10,17 +10,21 @@ import java.util.*;
 
 import models.*;
 
-public class Application extends Controller {
+public class Application extends BaseController {
 
-    public static void index() throws IOException {
+    public static void index() {
         UserJSON user = new UserJSON();
         user.setName("Bob");
         user.setAge("1131");
         renderJs("app/index", user);
     }
 
-    private static void renderJs(String template, Object context){
-       renderTemplate("mainjs.html", template, context);
+    public static void second(){
+        UserJSON user = new UserJSON();
+        user.setName("John");
+        user.setAge("");
+        renderJs("app/second", user);
     }
+
 
 }
