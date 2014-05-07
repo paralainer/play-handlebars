@@ -3,10 +3,12 @@ package models.handlebars;
 import com.github.jknack.handlebars.Context;
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Template;
+import com.github.jknack.handlebars.ValueResolver;
 import com.github.jknack.handlebars.context.FieldValueResolver;
 import com.github.jknack.handlebars.context.JavaBeanValueResolver;
 import com.github.jknack.handlebars.io.FileTemplateLoader;
 import com.github.jknack.handlebars.io.TemplateLoader;
+import com.google.gson.JsonObject;
 import play.Play;
 
 import java.io.File;
@@ -31,11 +33,11 @@ public class TemplateManager {
 
     private final boolean useCache = Play.mode == Play.Mode.PROD;
 
-    public String renderTemplate(String templateName, Object context) throws IOException {
+    public String renderTemplate(String templateName, JsonObject context) throws IOException {
         Template compiledTemplate = getTemplate(templateName);
 
         return compiledTemplate.apply(
-                Context.newBuilder(context).resolver(new JavaBeanValueResolver()).build()
+                Context.newBuilder(context).resolver(new JsonObjectValueResolver()).build()
         );
     }
 

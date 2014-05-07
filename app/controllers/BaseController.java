@@ -1,6 +1,7 @@
 package controllers;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import play.mvc.Controller;
 
 /**
@@ -12,8 +13,8 @@ public class BaseController extends Controller {
         if (isApiCall()) {
             renderJSON(context);
         } else {
-            String contextJson = new Gson().toJson(context);
-            renderTemplate("mainjs.html", template, context, contextJson);
+            JsonElement contextJson = new Gson().toJsonTree(context);
+            renderTemplate("mainjs.html", template, contextJson);
         }
     }
 

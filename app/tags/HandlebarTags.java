@@ -1,7 +1,5 @@
 package tags;
 
-import com.github.jknack.handlebars.Context;
-import com.github.jknack.handlebars.Template;
 import groovy.lang.Closure;
 import models.handlebars.TemplateManager;
 import play.templates.FastTags;
@@ -22,6 +20,6 @@ public class HandlebarTags extends FastTags {
         Object context = args.get("context");
         String templateName = (String) args.get("template");
 
-        out.println(TemplateManager.INSTANCE.renderTemplate(templateName, context));
+        out.println(TemplateManager.INSTANCE.renderTemplate(templateName, (com.google.gson.JsonObject) context));
     }
 }

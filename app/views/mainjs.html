@@ -1,8 +1,8 @@
 #{extends 'main.html'/}
 <div id="async-content">
-#{handlebars.renderJs template:template, context: context/}
+#{handlebars.renderJs template:template, context: contextJson.getAsJsonObject()/}
 </div>
 
 <script>
-    history.pushState({context: ${contextJson.raw()}, action: '${template}'}, "", "");
+    history.pushState({context: ${contextJson.toString().raw()}, action: '${template}'}, "", "");
 </script>
