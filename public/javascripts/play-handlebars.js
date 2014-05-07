@@ -5,17 +5,15 @@ PH.Router = function () {
 };
 
 PH.Router.prototype.resolve = function (link) {
-    var result = null;
-    if (!link || link.length == 0){
+    if (!link || link.length == 0) {
         link = "/";
     }
 
-    _.each(this.routes, function (value, key) {
-        if (!result && new RegExp(key).test(link)) {
-            result = value;
+    return _.find(this.routes, function (value, key) {
+        if (new RegExp(key).test(link)) {
+            return true;
         }
     });
-    return result;
 };
 
 PH.router = new PH.Router();
