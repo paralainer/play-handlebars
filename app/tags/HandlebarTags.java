@@ -1,5 +1,6 @@
 package tags;
 
+import com.google.gson.JsonElement;
 import groovy.lang.Closure;
 import models.handlebars.TemplateManager;
 import play.templates.FastTags;
@@ -20,6 +21,6 @@ public class HandlebarTags extends FastTags {
         Object context = args.get("context");
         String templateName = (String) args.get("template");
 
-        out.println(TemplateManager.INSTANCE.renderTemplate(templateName, (com.google.gson.JsonObject) context));
+        out.println(TemplateManager.INSTANCE.renderTemplate(templateName, (JsonElement) context));
     }
 }

@@ -8,6 +8,7 @@ import com.github.jknack.handlebars.context.FieldValueResolver;
 import com.github.jknack.handlebars.context.JavaBeanValueResolver;
 import com.github.jknack.handlebars.io.FileTemplateLoader;
 import com.github.jknack.handlebars.io.TemplateLoader;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import play.Play;
 
@@ -33,7 +34,7 @@ public class TemplateManager {
 
     private final boolean useCache = Play.mode == Play.Mode.PROD;
 
-    public String renderTemplate(String templateName, JsonObject context) throws IOException {
+    public String renderTemplate(String templateName, JsonElement context) throws IOException {
         Template compiledTemplate = getTemplate(templateName);
 
         return compiledTemplate.apply(

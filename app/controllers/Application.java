@@ -26,5 +26,10 @@ public class Application extends BaseController {
         renderJs("app/second", user);
     }
 
+    public static void list(){
+        List<UserJSON> result = Arrays.asList(new UserJSON(), new UserJSON());
+        renderJs("app/list", result);
+    }
+
 
 }

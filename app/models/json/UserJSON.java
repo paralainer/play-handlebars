@@ -9,9 +9,9 @@ import java.util.List;
  */
 public class UserJSON {
 
-    private String name;
+    private String name = "Test";
 
-    private String age;
+    private String age = "40";
 
     private AddressJSON[] address = Arrays.asList(new AddressJSON(), new AddressJSON()).toArray(new AddressJSON[2]);
 
