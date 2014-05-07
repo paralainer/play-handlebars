@@ -2,7 +2,8 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-GET /handlebars/templates                       JsController.templates
+GET /ph/templates                       JsController.templates
+GET /ph/routes                       JsController.routes
 
 # Home page
 GET     /                                       Application.index
@@ -15,6 +16,6 @@ GET     /public/                                staticDir:public
 
 
 GET /app/index Application.index
-GET /app/second Application.second
+GET /app/second/{<\d+>age} Application.second
 GET /app/list Application.list
 

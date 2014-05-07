@@ -3,18 +3,13 @@ package models.handlebars;
 import com.github.jknack.handlebars.Context;
 import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Template;
-import com.github.jknack.handlebars.ValueResolver;
-import com.github.jknack.handlebars.context.FieldValueResolver;
-import com.github.jknack.handlebars.context.JavaBeanValueResolver;
 import com.github.jknack.handlebars.io.FileTemplateLoader;
 import com.github.jknack.handlebars.io.TemplateLoader;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import play.Play;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.*;
@@ -27,12 +22,17 @@ import java.util.*;
 public class TemplateManager {
 
     public static final TemplateManager INSTANCE = new TemplateManager();
-    public static final String PREFIX = Play.applicationPath + File.separator + "app" + File.separator + "views" + File.separator + "js" + File.separator;
-    public static final String POSTFIX = ".html";
+    private static final String PREFIX = Play.applicationPath + File.separator + "app" + File.separator + "views" + File.separator + "js" + File.separator;
+
+    private static final String POSTFIX = ".html";
 
     private final Map<String, Template> templateCache = new HashMap<String, Template>();
+    private String jsTemplatesCached;
 
     private final boolean useCache = Play.mode == Play.Mode.PROD;
+
+    private final Map<String, String> actionTemplatesMap = new HashMap<String, String>();
+    private String actionTemplatesCached;
 
     public String renderTemplate(String templateName, JsonElement context) throws IOException {
         Template compiledTemplate = getTemplate(templateName);
@@ -48,15 +48,32 @@ public class TemplateManager {
         );
     }
 
-    public String getJsTemplates() throws IOException {
-        Map<String, String> templates = getTemplates();
+    public void addActionTemplate(String linkPattern, String template){
+         actionTemplatesMap.put(linkPattern, template);
+    }
 
-        StringBuilder builder = new StringBuilder("Handlebars.templates = Handlebars.templates || {};\n");
-        for (Map.Entry<String, String> entry : templates.entrySet()) {
-            builder.append("Handlebars.templates['").append(entry.getKey()).append("'] = ").append("Handlebars.template(").append(entry.getValue()).append(");\n");
+    public String getActionTemplates(){
+        StringBuilder builder = new StringBuilder();
+        for (Map.Entry<String, String> entry : actionTemplatesMap.entrySet()) {
+            builder.append("PH.router.routes['").append(entry.getKey().replace("/", "\\/").replace("\\", "\\\\")).append("'] = function(context){ return '").append(entry.getValue()).append("'};\n");
+        }
+        return builder.toString();
+    }
+
+    public String getJsTemplatesCached() throws IOException {
+        if (useCache && jsTemplatesCached != null){
+            return jsTemplatesCached;
         }
 
-        return builder.toString();
+        Map<String, String> templates = getTemplates();
+
+        StringBuilder builder = new StringBuilder();
+        for (Map.Entry<String, String> entry : templates.entrySet()) {
+            builder.append("PH.templates['").append(entry.getKey()).append("'] = ").append("Handlebars.template(").append(entry.getValue()).append(");\n");
+        }
+
+        jsTemplatesCached = builder.toString();
+        return jsTemplatesCached;
     }
 
 

@@ -1,11 +1,9 @@
-Handlebars.templates = Handlebars.templates || {};
 dl = {};
 $('body').on('click', 'a[dl-async]', function (e) {
     e.preventDefault();
     var a = $(this);
     var state = {};
-    state.action = a.attr('dl-async') || a.attr('href');
-    state.action = state.action[0] == '/' ? state.action.substring(1) : state.action;
+    state.link = a.attr('dl-async') || a.attr('href');
     var link = a.attr('href');
     $.get(link + "?json=true", function (context) {
         state.context = context;
@@ -19,7 +17,7 @@ window.addEventListener('popstate', function (e) {
 });
 
 dl.showContent = function(state){
-    $('#async-content').html(Handlebars.templates[state.action](state.context));
+    $('#async-content').html(PH.renderTemplate(state.link, state.context));
 };
 
 

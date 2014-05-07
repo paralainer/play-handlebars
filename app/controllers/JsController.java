@@ -4,7 +4,6 @@ import models.handlebars.TemplateManager;
 import play.mvc.Controller;
 
 import java.io.IOException;
-import java.util.Map;
 
 /**
  * Created by Sergey Talov on 05.05.2014.
@@ -14,11 +13,11 @@ public class JsController extends Controller {
 
     public static void templates() throws IOException {
         response.setContentTypeIfNotSet("text/javascript");
-        renderText(TemplateManager.INSTANCE.getJsTemplates());
+        renderText(TemplateManager.INSTANCE.getJsTemplatesCached());
     }
 
-    public static void controller(){
+    public static void routes(){
         response.setContentTypeIfNotSet("text/javascript");
-        renderText("");
+        renderText(TemplateManager.INSTANCE.getActionTemplates());
     }
 }
